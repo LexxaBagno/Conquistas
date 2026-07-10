@@ -33,8 +33,8 @@
         }
 
         body {
-            /* Certifique-se de subir a imagem "casal.jpg" na mesma pasta do index.html no GitHub */
-            background-image: url('casal.jpg');
+            /* Puxa a imagem MJ.png que você colocou no repositório */
+            background-image: url('MJ.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -47,7 +47,6 @@
             min-height: 100vh;
         }
 
-        /* Sobreposição sutil para garantir contraste se a foto for muito clara */
         body::before {
             content: '';
             position: fixed;
@@ -76,7 +75,6 @@
             font-size: 24px;
             color: var(--accent-color);
             margin-bottom: 5px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         @media (prefers-color-scheme: dark) {
@@ -89,7 +87,6 @@
             font-weight: 500;
         }
 
-        /* Painel de Valores Gerais */
         .dashboard {
             background: var(--accent-light);
             border-radius: 14px;
@@ -120,7 +117,6 @@
             .dash-card p { color: #81e6d9; }
         }
 
-        /* Formulário de Cadastro */
         .add-form {
             display: flex;
             gap: 8px;
@@ -135,7 +131,6 @@
             background: rgba(255, 255, 255, 0.9);
             color: #2d3748;
             font-size: 14px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
 
         @media (prefers-color-scheme: dark) {
@@ -150,10 +145,7 @@
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
         }
-
-        .add-form button:hover { background: #234e52; }
 
         #lista-vazia {
             text-align: center;
@@ -163,14 +155,12 @@
             font-weight: 500;
         }
 
-        /* Item de Meta */
         .meta-item {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 15px;
             margin-bottom: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
         @media (prefers-color-scheme: dark) {
@@ -215,17 +205,8 @@
             font-size: 14px;
             padding: 6px 10px;
             border-radius: 8px;
-            transition: all 0.2s;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .action-btn { background: rgba(0,0,0,0.2); }
-        }
-
-        .action-btn:hover { background: var(--border-color); }
-        .btn-delete:hover { background: rgba(229, 62, 62, 0.15); }
-
-        /* Campos de Valores e Responsividade Mobile */
         .item-finances {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -238,10 +219,6 @@
                 grid-template-columns: 1fr;
                 gap: 6px;
             }
-            .dashboard {
-                gap: 5px;
-            }
-            .dashboard p { font-size: 12px; }
         }
 
         .input-group {
@@ -254,8 +231,6 @@
             font-size: 11px;
             opacity: 0.8;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
 
         .input-group input {
@@ -268,10 +243,6 @@
             width: 100%;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .input-group input { background: rgba(30, 41, 59, 0.9); color: #edf2f7; }
-        }
-
         .result-box {
             padding: 8px;
             background: rgba(0,0,0,0.04);
@@ -282,10 +253,6 @@
             min-height: 33px;
             display: flex;
             align-items: center;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .result-box { background: rgba(255,255,255,0.05); }
         }
 
         .missing-value { color: var(--warning-color); }
@@ -311,24 +278,12 @@
             border-color: var(--success-color);
             background: rgba(240, 253, 244, 0.85);
         }
-        @media (prefers-color-scheme: dark) {
-            .meta-item.item-done { background: rgba(20, 50, 30, 0.85); }
-        }
-        .meta-item.item-done .item-title {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
 
         footer {
             margin-top: 20px;
             text-align: center;
             font-size: 12px;
             opacity: 0.9;
-            font-weight: 500;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.5);
-        }
-        @media (prefers-color-scheme: dark) {
-            footer { text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
         }
     </style>
 </head>
@@ -340,29 +295,17 @@
         <p>Planejamento livre e financeiro a dois</p>
     </header>
 
-    <!-- Painel Geral -->
     <div class="dashboard">
-        <div class="dash-card">
-            <h4>Total</h4>
-            <p id="total-geral">R$ 0,00</p>
-        </div>
-        <div class="dash-card">
-            <h4>Guardado</h4>
-            <p id="total-guardado">R$ 0,00</p>
-        </div>
-        <div class="dash-card">
-            <h4>Falta</h4>
-            <p id="total-falta" style="color: var(--warning-color);">R$ 0,00</p>
-        </div>
+        <div class="dash-card"><h4>Total</h4><p id="total-geral">R$ 0,00</p></div>
+        <div class="dash-card"><h4>Guardado</h4><p id="total-guardado">R$ 0,00</p></div>
+        <div class="dash-card"><h4>Falta</h4><p id="total-falta" style="color: var(--warning-color);">R$ 0,00</p></div>
     </div>
 
-    <!-- Cadastro -->
     <div class="add-form">
         <input type="text" id="novo-item-nome" placeholder="O que vamos planejar? Ex: Viagem, Moto...">
         <button id="btn-adicionar">Adicionar</button>
     </div>
 
-    <!-- Elementos da Lista -->
     <div id="lista-container">
         <div id="lista-vazia">Nenhum plano adicionado ainda. Comece digitando acima! 🚀</div>
     </div>
@@ -373,8 +316,7 @@
 </div>
 
 <script>
-    // Configurações Globais
-    const SENHA_CORRETA = '1234'; // Altere sua senha de exclusão aqui!
+    const SENHA_CORRETA = '1234'; 
     let metas = [];
 
     const carregarDadosSalvos = () => {
@@ -428,39 +370,24 @@
                         <span class="item-title">${meta.nome}</span>
                     </div>
                     <div class="item-actions">
-                        <button class="action-btn btn-search" title="Pesquisar">🔍</button>
-                        <button class="action-btn btn-delete" style="color: var(--danger-color);" title="Excluir">🗑️</button>
+                        <button class="action-btn btn-search">🔍</button>
+                        <button class="action-btn btn-delete" style="color: var(--danger-color);">🗑️</button>
                     </div>
                 </div>
                 <div class="item-finances">
-                    <div class="input-group">
-                        <label>Valor Total</label>
-                        <input type="number" class="val-total" value="${meta.total}" placeholder="0.00" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Já Guardado</label>
-                        <input type="number" class="val-guardado" value="${meta.guardado}" placeholder="0.00" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label>Falta</label>
-                        <div class="result-box ${falta === 0 && total > 0 ? 'completed-value' : 'missing-value'}">
-                            ${falta === 0 && total > 0 ? 'Concluído!' : formatMoeda(falta)}
-                        </div>
-                    </div>
+                    <div class="input-group"><label>Valor Total</label><input type="number" class="val-total" value="${meta.total}" step="0.01"></div>
+                    <div class="input-group"><label>Já Guardado</label><input type="number" class="val-guardado" value="${meta.guardado}" step="0.01"></div>
+                    <div class="input-group"><label>Falta</label><div class="result-box ${falta === 0 && total > 0 ? 'completed-value' : 'missing-value'}">${falta === 0 && total > 0 ? 'Concluído!' : formatMoeda(falta)}</div></div>
                 </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" style="width: ${pPct}%"></div>
-                </div>
+                <div class="progress-bar-container"><div class="progress-bar" style="width: ${pPct}%"></div></div>
             `;
 
-            // Checkbox
             itemDiv.querySelector('.done-check').addEventListener('change', (e) => {
                 metas[index].checked = e.target.checked;
                 salvarDados();
                 renderizarLista();
             });
 
-            // Inputs
             itemDiv.querySelector('.val-total').addEventListener('input', (e) => {
                 metas[index].total = e.target.value;
                 salvarDados();
@@ -473,21 +400,18 @@
                 atualizarApenasTotais();
             });
 
-            // Busca Google Shopping
             itemDiv.querySelector('.btn-search').addEventListener('click', () => {
-                const query = encodeURIComponent(meta.nome);
-                window.open(`https://www.google.com/search?tbm=shop&q=${query}`, '_blank');
+                window.open(`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(meta.nome)}`, '_blank');
             });
 
-            // Exclusão protegida com Janela de Senha nativa do navegador
             itemDiv.querySelector('.btn-delete').addEventListener('click', () => {
-                const senhaDigitada = prompt('Digite a senha para confirmar a exclusão deste plano:');
+                const senhaDigitada = prompt('Digite a senha para confirmar a exclusão:');
                 if (senhaDigitada === SENHA_CORRETA) {
                     metas.splice(index, 1);
                     salvarDados();
                     renderizarLista();
                 } else if (senhaDigitada !== null) {
-                    alert('Senha incorreta! O item não foi excluído.');
+                    alert('Senha incorreta!');
                 }
             });
 
@@ -500,62 +424,32 @@
     };
 
     const atualizarApenasTotais = () => {
-        let globalTotal = 0;
-        let globalGuardado = 0;
-        let globalFalta = 0;
-
-        document.querySelectorAll('.meta-item').forEach((item, index) => {
-            const inputTotal = item.querySelector('.val-total');
-            const inputGuardado = item.querySelector('.val-guardado');
-            const resultBox = item.querySelector('.result-box');
-            const progressBar = item.querySelector('.progress-bar');
-
-            const total = parseFloat(inputTotal.value) || 0;
-            const guardado = parseFloat(inputGuardado.value) || 0;
-            let falta = total - guardado;
-            if (falta < 0) falta = 0;
-
-            globalTotal += total;
-            globalGuardado += guardado;
-            globalFalta += falta;
-
-            if (falta === 0 && total > 0) {
-                resultBox.textContent = "Concluído!";
-                resultBox.className = "result-box completed-value";
-            } else {
-                resultBox.textContent = formatMoeda(falta);
-                resultBox.className = "result-box missing-value";
-            }
-
-            const pPct = total > 0 ? Math.min((guardado / total) * 100, 100) : 0;
-            progressBar.style.width = `${pPct}%`;
+        let globalTotal = 0; let globalGuardado = 0; let globalFalta = 0;
+        document.querySelectorAll('.meta-item').forEach((item) => {
+            const total = parseFloat(item.querySelector('.val-total').value) || 0;
+            const guardado = parseFloat(item.querySelector('.val-guardado').value) || 0;
+            let falta = total - guardado; if (falta < 0) falta = 0;
+            globalTotal += total; globalGuardado += guardado; globalFalta += falta;
+            item.querySelector('.result-box').textContent = (falta === 0 && total > 0) ? "Concluído!" : formatMoeda(falta);
+            item.querySelector('.progress-bar').style.width = `${total > 0 ? Math.min((guardado / total) * 100, 100) : 0}%`;
         });
-
         document.getElementById('total-geral').textContent = formatMoeda(globalTotal);
         document.getElementById('total-guardado').textContent = formatMoeda(globalGuardado);
         document.getElementById('total-falta').textContent = formatMoeda(globalFalta);
     };
 
     const adicionarNovoItem = () => {
-        const inputNome = document.getElementById('novo-item-nome');
-        const nome = inputNome.value.trim();
-
-        if (nome === '') return;
-
-        metas.push({ nome: nome, checked: false, total: '', guardado: '' });
-        inputNome.value = '';
-        salvarDados();
-        renderizarLista();
+        const input = document.getElementById('novo-item-nome');
+        if (input.value.trim() === '') return;
+        metas.push({ nome: input.value.trim(), checked: false, total: '', guardado: '' });
+        input.value = ''; salvarDados(); renderizarLista();
     };
 
     document.getElementById('btn-adicionar').addEventListener('click', adicionarNovoItem);
-    document.getElementById('novo-item-nome').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') adicionarNovoItem();
-    });
+    document.getElementById('novo-item-nome').addEventListener('keypress', (e) => { if (e.key === 'Enter') adicionarNovoItem(); });
 
     carregarDadosSalvos();
     renderizarLista();
 </script>
-
 </body>
 </html>
