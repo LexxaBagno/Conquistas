@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nossas Metas & Conquistas 🎯</title>
+    <title>Nossas Metas & Negócios 🎯</title>
     <style>
         :root {
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.92);
             --text-color: #2d3748;
             --accent-color: #2c7a7b;
-            --accent-light: rgba(230, 255, 250, 0.9);
-            --border-color: rgba(226, 232, 240, 0.8);
+            --accent-light: rgba(230, 255, 250, 0.95);
+            --border-color: rgba(226, 232, 240, 0.9);
             --success-color: #38a169;
             --warning-color: #dd6b20;
             --danger-color: #e53e3e;
+            --bg-fade: rgba(247, 250, 252, 1);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --card-bg: rgba(45, 55, 72, 0.88);
+                --card-bg: rgba(45, 55, 72, 0.94);
                 --text-color: #edf2f7;
-                --border-color: rgba(74, 85, 104, 0.8);
-                --accent-light: rgba(35, 78, 82, 0.9);
+                --border-color: rgba(74, 85, 104, 0.9);
+                --accent-light: rgba(35, 78, 82, 0.95);
+                --bg-fade: rgba(26, 32, 44, 1);
             }
         }
 
@@ -38,23 +40,25 @@
         }
 
         body {
-            background-image: url('./casal.png');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
+            background-color: var(--bg-fade);
             color: var(--text-color);
             padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.25);
+            background-image: url('./casal.png');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            opacity: 0.18; 
             z-index: 1;
             pointer-events: none;
         }
@@ -65,16 +69,16 @@
             background: var(--card-bg);
             padding: 22px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             position: relative;
             z-index: 2;
         }
 
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         header h1 {
@@ -88,10 +92,37 @@
             header h1 { color: #81e6d9; }
         }
 
-        header p {
+        /* Sistema de Abas */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            font-weight: 700;
             font-size: 13px;
-            opacity: 0.9;
-            font-weight: 600;
+            cursor: pointer;
+            border-radius: 9px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(44, 122, 123, 0.25);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .tab-btn.active { background: #4fd1c5; color: #1a202c; }
         }
 
         .dashboard {
@@ -103,7 +134,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             text-align: center;
-            border: 1px solid rgba(44, 122, 123, 0.3);
+            border: 1px solid rgba(44, 122, 123, 0.25);
         }
 
         .dash-card h4 {
@@ -136,13 +167,13 @@
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             color: #2d3748;
             font-size: 14px;
         }
 
         @media (prefers-color-scheme: dark) {
-            .add-form input { background: rgba(30, 41, 59, 0.95); color: #edf2f7; }
+            .add-form input { background: rgba(30, 41, 59, 0.98); color: #edf2f7; }
         }
 
         .add-form button {
@@ -164,7 +195,7 @@
         }
 
         .meta-item {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 15px;
@@ -172,7 +203,7 @@
         }
 
         @media (prefers-color-scheme: dark) {
-            .meta-item { background: rgba(45, 55, 72, 0.65); }
+            .meta-item { background: rgba(45, 55, 72, 0.75); }
         }
 
         .item-main {
@@ -196,9 +227,34 @@
             cursor: pointer;
         }
 
-        .item-title {
+        /* Estilo do título editável */
+        .item-title-input {
             font-size: 15px;
             font-weight: 600;
+            background: transparent;
+            border: 1px transparent dashed;
+            color: var(--text-color);
+            padding: 4px;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .item-title-input:hover {
+            border-color: var(--border-color);
+            background: rgba(0,0,0,0.02);
+            cursor: pointer;
+        }
+
+        .item-title-input:focus {
+            background: white;
+            border: 1px solid var(--accent-color);
+            outline: none;
+            cursor: text;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .item-title-input:focus { background: #1a202c; }
         }
 
         .item-actions {
@@ -207,12 +263,16 @@
         }
 
         .action-btn {
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.8);
             border: 1px solid var(--border-color);
             cursor: pointer;
             font-size: 14px;
             padding: 6px 10px;
             border-radius: 8px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-btn { background: rgba(30,41,59,0.8); color: white; }
         }
 
         .item-finances {
@@ -237,7 +297,7 @@
 
         .input-group label {
             font-size: 11px;
-            opacity: 0.8;
+            opacity: 0.9;
             font-weight: 700;
         }
 
@@ -245,10 +305,14 @@
             padding: 8px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             color: #2d3748;
             font-size: 13px;
             width: 100%;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .input-group input { background: rgba(30,41,59,0.95); color: white; }
         }
 
         .result-box {
@@ -284,7 +348,11 @@
 
         .meta-item.item-done {
             border-color: var(--success-color);
-            background: rgba(240, 253, 244, 0.85);
+            background: rgba(240, 253, 244, 0.92);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .meta-item.item-done { background: rgba(20, 50, 35, 0.85); border-color: var(--success-color); }
         }
 
         footer {
@@ -296,7 +364,6 @@
         }
     </style>
 
-    <!-- Scripts do Firebase SDK (v9 nativo compatível com ambiente modular via CDN script) -->
     <script type="importmap">
       {
         "imports": {
@@ -310,25 +377,33 @@
 
 <div class="container">
     <header>
-        <h1>Nossas Metas & Conquistas 🏢🚗</h1>
-        <p>Sincronizado em Tempo Real</p>
+        <h1>Nossas Conquistas 🎯</h1>
     </header>
 
-    <div class="dashboard">
-        <div class="dash-card"><h4>Total</h4><p id="total-geral">R$ 0,00</p></div>
-        <div class="dash-card"><h4>Guardado</h4><p id="total-guardado">R$ 0,00</p></div>
-        <div class="dash-card"><h4>Falta</h4><p id="total-falta" style="color: var(--warning-color);">R$ 0,00</p></div>
+    <!-- Menu de Abas -->
+    <div class="tabs">
+        <button class="tab-btn active" id="tab-metas">🎯 Metas</button>
+        <button class="tab-btn" id="tab-compras">🛒 Compras</button>
+        <button class="tab-btn" id="tab-vendas">💰 Vendas</button>
     </div>
 
+    <!-- Painel de Valores Variáveis conforme Aba ativa -->
+    <div class="dashboard">
+        <div class="dash-card"><h4 id="lbl-dash-1">Total</h4><p id="total-geral">R$ 0,00</p></div>
+        <div class="dash-card"><h4 id="lbl-dash-2">Guardado</h4><p id="total-guardado">R$ 0,00</p></div>
+        <div class="dash-card"><h4 id="lbl-dash-3">Falta</h4><p id="total-falta" style="color: var(--warning-color);">R$ 0,00</p></div>
+    </div>
+
+    <!-- Form de Cadastro -->
     <div class="add-form">
-        <input type="text" id="novo-item-nome" placeholder="O que vamos planejar? Ex: Viagem, Moto...">
+        <input type="text" id="novo-item-nome" placeholder="Adicionar à aba atual...">
         <button id="btn-adicionar">Adicionar</button>
     </div>
 
     <div id="loading-status">Conectando ao Firebase... ⚡</div>
 
     <div id="lista-container" style="display: none;">
-        <div id="lista-vazia" style="display: none;">Nenhum plano adicionado ainda. Comece digitando acima! 🚀</div>
+        <div id="lista-vazia" style="display: none;">Nenhum item aqui. Digite acima para começar! 🚀</div>
     </div>
 
     <footer>
@@ -341,7 +416,7 @@
     import { getDatabase, ref, set, onValue } from "firebase/database";
 
     // ---------------------------------------------------------
-    // ASSOCIE AQUI OS SEUS DADOS COPIADOS DO FIREBASE:
+    // ASSOCIE AQUI OS SEUS DADOS REAIS DO FIREBASE:
     // ---------------------------------------------------------
     const firebaseConfig = {
         apiKey: "AIzaSyClqzHI7NIrwA9IDQURiQJyRSrYOlSWTgw",
@@ -354,31 +429,66 @@
   measurementId: "G-6KYY49B2ZQ"
     };
 
-    const SENHA_CORRETA = '020526'; 
-    let metas = [];
+    const SENHA_CORRETA = '1234'; 
+    let bancoDadosCompleto = { metas: [], compras: [], vendas: [] };
+    let abaAtiva = 'metas'; // Pode ser: 'metas', 'compras', 'vendas'
 
-    // Inicializa o Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const dbRef = ref(db, 'metas_casal_compartilhadas');
+    const dbRef = ref(db, 'sistema_casal_v2');
 
     const formatMoeda = (valor) => {
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
-    // Escuta alterações do Firebase em Tempo Real (Atualiza PC e Celular simultaneamente)
+    // Gerenciador de cliques nas Abas
+    const alternarAba = (novaAba) => {
+        abaAtiva = novaAba;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`tab-${novaAba}`).classList.add('active');
+        
+        const inputAdd = document.getElementById('novo-item-nome');
+        if(novaAba === 'metas') {
+            inputAdd.placeholder = "O que vamos planejar? Ex: Viagem, Reforma...";
+            document.getElementById('lbl-dash-1').textContent = "Total";
+            document.getElementById('lbl-dash-2').textContent = "Guardado";
+            document.getElementById('lbl-dash-3').textContent = "Falta";
+        } else if(novaAba === 'compras') {
+            inputAdd.placeholder = "O que precisamos comprar? Ex: Geladeira, Pneus...";
+            document.getElementById('lbl-dash-1').textContent = "Custo Total";
+            document.getElementById('lbl-dash-2').textContent = "Pago";
+            document.getElementById('lbl-dash-3').textContent = "Falta Pagar";
+        } else if(novaAba === 'vendas') {
+            inputAdd.placeholder = "O que vamos vender? Ex: Chevrolet Astra...";
+            document.getElementById('lbl-dash-1').textContent = "Valor Alvo";
+            document.getElementById('lbl-dash-2').textContent = "Recebido";
+            document.getElementById('lbl-dash-3').textContent = "A Receber";
+        }
+        renderizarLista();
+    };
+
+    document.getElementById('tab-metas').addEventListener('click', () => alternarAba('metas'));
+    document.getElementById('tab-compras').addEventListener('click', () => alternarAba('compras'));
+    document.getElementById('tab-vendas').addEventListener('click', () => alternarAba('vendas'));
+
+    // Ouvinte em tempo real do Firebase
     onValue(dbRef, (snapshot) => {
         const dados = snapshot.val();
-        metas = dados ? dados : [];
+        if (dados) {
+            bancoDadosCompleto.metas = dados.metas || [];
+            bancoDadosCompleto.compras = dados.compras || [];
+            bancoDadosCompleto.vendas = dados.vendas || [];
+        } else {
+            bancoDadosCompleto = { metas: [], compras: [], vendas: [] };
+        }
         
         document.getElementById('loading-status').style.display = 'none';
         document.getElementById('lista-container').style.display = 'block';
-        
         renderizarLista();
     });
 
     const sincronizarComFirebase = () => {
-        set(dbRef, metas);
+        set(dbRef, bancoDadosCompleto);
     };
 
     const renderizarLista = () => {
@@ -386,8 +496,9 @@
         const vaziaDiv = document.getElementById('lista-vazia');
         
         container.querySelectorAll('.meta-item').forEach(el => el.remove());
+        const itensAtuais = bancoDadosCompleto[abaAtiva];
 
-        if (metas.length === 0) {
+        if (itensAtuais.length === 0) {
             vaziaDiv.style.display = 'block';
         } else {
             vaziaDiv.style.display = 'none';
@@ -395,22 +506,27 @@
 
         let globalTotal = 0; let globalGuardado = 0; let globalFalta = 0;
 
-        metas.forEach((meta, index) => {
-            const total = parseFloat(meta.total) || 0;
-            const guardado = parseFloat(meta.guardado) || 0;
+        itensAtuais.forEach((item, index) => {
+            const total = parseFloat(item.total) || 0;
+            const guardado = parseFloat(item.guardado) || 0;
             let falta = total - guardado; if (falta < 0) falta = 0;
 
             globalTotal += total; globalGuardado += guardado; globalFalta += falta;
             const pPct = total > 0 ? Math.min((guardado / total) * 100, 100) : 0;
 
             const itemDiv = document.createElement('div');
-            itemDiv.className = `meta-item ${meta.checked ? 'item-done' : ''}`;
+            itemDiv.className = `meta-item ${item.checked ? 'item-done' : ''}`;
             
+            // Labels customizadas por contexto
+            let lbl1 = "Valor Total", lbl2 = "Já Guardado", lbl3 = "Falta", lblDone = "Concluído!";
+            if(abaAtiva === 'compras') { lbl2 = "Já Pago"; lbl3 = "A pagar"; lblDone = "Pago!"; }
+            if(abaAtiva === 'vendas') { lbl1 = "Preço Venda"; lbl2 = "Recebido"; lbl3 = "A receber"; lblDone = "Vendido & Pago!"; }
+
             itemDiv.innerHTML = `
                 <div class="item-main">
                     <div class="item-left">
-                        <input type="checkbox" class="done-check" ${meta.checked ? 'checked' : ''}>
-                        <span class="item-title">${meta.nome}</span>
+                        <input type="checkbox" class="done-check" ${item.checked ? 'checked' : ''}>
+                        <input type="text" class="item-title-input" value="${item.nome}">
                     </div>
                     <div class="item-actions">
                         <button class="action-btn btn-search">🔍</button>
@@ -418,41 +534,47 @@
                     </div>
                 </div>
                 <div class="item-finances">
-                    <div class="input-group"><label>Valor Total</label><input type="number" class="val-total" value="${meta.total}" step="0.01"></div>
-                    <div class="input-group"><label>Já Guardado</label><input type="number" class="val-guardado" value="${meta.guardado}" step="0.01"></div>
-                    <div class="input-group"><label>Falta</label><div class="result-box ${falta === 0 && total > 0 ? 'completed-value' : 'missing-value'}">${falta === 0 && total > 0 ? 'Concluído!' : formatMoeda(falta)}</div></div>
+                    <div class="input-group"><label>${lbl1}</label><input type="number" class="val-total" value="${item.total}" step="0.01"></div>
+                    <div class="input-group"><label>${lbl2}</label><input type="number" class="val-guardado" value="${item.guardado}" step="0.01"></div>
+                    <div class="input-group"><label>${lbl3}</label><div class="result-box ${falta === 0 && total > 0 ? 'completed-value' : 'missing-value'}">${falta === 0 && total > 0 ? lblDone : formatMoeda(falta)}</div></div>
                 </div>
                 <div class="progress-bar-container"><div class="progress-bar" style="width: ${pPct}%"></div></div>
             `;
 
+            // EVENTO: Edição instantânea do nome ao mudar o input ou apertar enter
+            const inputNome = itemDiv.querySelector('.item-title-input');
+            inputNome.addEventListener('change', (e) => {
+                bancoDadosCompleto[abaAtiva][index].nome = e.target.value.trim();
+                sincronizarComFirebase();
+            });
+            inputNome.addEventListener('keypress', (e) => { if(e.key === 'Enter') inputNome.blur(); });
+
             itemDiv.querySelector('.done-check').addEventListener('change', (e) => {
-                metas[index].checked = e.target.checked;
+                bancoDadosCompleto[abaAtiva][index].checked = e.target.checked;
                 sincronizarComFirebase();
             });
 
-            // O input 'change' ou 'blur' sincroniza com o Firebase quando o usuário termina de digitar
             itemDiv.querySelector('.val-total').addEventListener('change', (e) => {
-                metas[index].total = e.target.value;
+                bancoDadosCompleto[abaAtiva][index].total = e.target.value;
                 sincronizarComFirebase();
             });
 
             itemDiv.querySelector('.val-guardado').addEventListener('change', (e) => {
-                metas[index].guardado = e.target.value;
+                bancoDadosCompleto[abaAtiva][index].guardado = e.target.value;
                 sincronizarComFirebase();
             });
 
-            // Efeito visual rápido enquanto digita (local)
             itemDiv.querySelector('.val-total').addEventListener('input', () => atualizarApenasTotaisLocais());
             itemDiv.querySelector('.val-guardado').addEventListener('input', () => atualizarApenasTotaisLocais());
 
             itemDiv.querySelector('.btn-search').addEventListener('click', () => {
-                window.open(`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(meta.nome)}`, '_blank');
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(item.nome)}`, '_blank');
             });
 
             itemDiv.querySelector('.btn-delete').addEventListener('click', () => {
                 const senhaDigitada = prompt('Digite a senha para confirmar a exclusão:');
                 if (senhaDigitada === SENHA_CORRETA) {
-                    metas.splice(index, 1);
+                    bancoDadosCompleto[abaAtiva].splice(index, 1);
                     sincronizarComFirebase();
                 } else if (senhaDigitada !== null) {
                     alert('Senha incorreta!');
@@ -474,7 +596,12 @@
             const guardado = parseFloat(item.querySelector('.val-guardado').value) || 0;
             let falta = total - guardado; if (falta < 0) falta = 0;
             globalTotal += total; globalGuardado += guardado; globalFalta += falta;
-            item.querySelector('.result-box').textContent = (falta === 0 && total > 0) ? "Concluído!" : formatMoeda(falta);
+            
+            let lblDone = "Concluído!";
+            if(abaAtiva === 'compras') lblDone = "Pago!";
+            if(abaAtiva === 'vendas') lblDone = "Recebido!";
+
+            item.querySelector('.result-box').textContent = (falta === 0 && total > 0) ? lblDone : formatMoeda(falta);
             item.querySelector('.progress-bar').style.width = `${total > 0 ? Math.min((guardado / total) * 100, 100) : 0}%`;
         });
         document.getElementById('total-geral').textContent = formatMoeda(globalTotal);
@@ -485,7 +612,16 @@
     const adicionarNovoItem = () => {
         const input = document.getElementById('novo-item-nome');
         if (input.value.trim() === '') return;
-        metas.push({ nome: input.value.trim(), checked: false, total: '', guardado: '' });
+        
+        if (!bancoDadosCompleto[abaAtiva]) bancoDadosCompleto[abaAtiva] = [];
+        
+        bancoDadosCompleto[abaAtiva].push({ 
+            nome: input.value.trim(), 
+            checked: false, 
+            total: '', 
+            guardado: '' 
+        });
+        
         input.value = '';
         sincronizarComFirebase();
     };
