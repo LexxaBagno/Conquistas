@@ -38,7 +38,6 @@
         }
 
         body {
-            /* Corrigido o caminho para o GitHub Pages obrigando a leitura local com ./ */
             background-image: url('./casal.png');
             background-size: cover;
             background-position: center center;
@@ -51,7 +50,6 @@
             align-items: center;
         }
 
-        /* Camada escura protetora para dar contraste caso a foto seja clara */
         body::before {
             content: '';
             position: fixed;
@@ -71,7 +69,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             position: relative;
-            z-index: 2; /* Garante que o app fique por cima do fundo escuro */
+            z-index: 2;
         }
 
         header {
@@ -157,7 +155,7 @@
             cursor: pointer;
         }
 
-        #lista-vazia {
+        #lista-vazia, #loading-status {
             text-align: center;
             padding: 30px;
             opacity: 0.8;
@@ -297,13 +295,23 @@
             font-weight: 600;
         }
     </style>
+
+    <!-- Scripts do Firebase SDK (v9 nativo compatível com ambiente modular via CDN script) -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js",
+          "firebase/database": "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"
+        }
+      }
+    </script>
 </head>
 <body>
 
 <div class="container">
     <header>
         <h1>Nossas Metas & Conquistas 🏢🚗</h1>
-        <p>Planejamento livre e financeiro a dois</p>
+        <p>Sincronizado em Tempo Real</p>
     </header>
 
     <div class="dashboard">
@@ -317,8 +325,10 @@
         <button id="btn-adicionar">Adicionar</button>
     </div>
 
-    <div id="lista-container">
-        <div id="lista-vazia">Nenhum plano adicionado ainda. Comece digitando acima! 🚀</div>
+    <div id="loading-status">Conectando ao Firebase... ⚡</div>
+
+    <div id="lista-container" style="display: none;">
+        <div id="lista-vazia" style="display: none;">Nenhum plano adicionado ainda. Comece digitando acima! 🚀</div>
     </div>
 
     <footer>
@@ -326,21 +336,49 @@
     </footer>
 </div>
 
-<script>
+<script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getDatabase, ref, set, onValue } from "firebase/database";
+
+    // ---------------------------------------------------------
+    // ASSOCIE AQUI OS SEUS DADOS COPIADOS DO FIREBASE:
+    // ---------------------------------------------------------
+    const firebaseConfig = {
+        apiKey: "AIzaSyClqzHI7NIrwA9IDQURiQJyRSrYOlSWTgw",
+  authDomain: "metas-casal-3634f.firebaseapp.com",
+  databaseURL: "https://metas-casal-3634f-default-rtdb.firebaseio.com",
+  projectId: "metas-casal-3634f",
+  storageBucket: "metas-casal-3634f.firebasestorage.app",
+  messagingSenderId: "560839559922",
+  appId: "1:560839559922:web:791748f331a14fe619de6b",
+  measurementId: "G-6KYY49B2ZQ"
+    };
+
     const SENHA_CORRETA = '1234'; 
     let metas = [];
 
-    const carregarDadosSalvos = () => {
-        const dados = localStorage.getItem('minhas_metas_casal_foto');
-        if (dados) metas = JSON.parse(dados);
-    };
-
-    const salvarDados = () => {
-        localStorage.setItem('minhas_metas_casal_foto', JSON.stringify(metas));
-    };
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dbRef = ref(db, 'metas_casal_compartilhadas');
 
     const formatMoeda = (valor) => {
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
+    // Escuta alterações do Firebase em Tempo Real (Atualiza PC e Celular simultaneamente)
+    onValue(dbRef, (snapshot) => {
+        const dados = snapshot.val();
+        metas = dados ? dados : [];
+        
+        document.getElementById('loading-status').style.display = 'none';
+        document.getElementById('lista-container').style.display = 'block';
+        
+        renderizarLista();
+    });
+
+    const sincronizarComFirebase = () => {
+        set(dbRef, metas);
     };
 
     const renderizarLista = () => {
@@ -389,18 +427,23 @@
 
             itemDiv.querySelector('.done-check').addEventListener('change', (e) => {
                 metas[index].checked = e.target.checked;
-                salvarDados(); renderizarLista();
+                sincronizarComFirebase();
             });
 
-            itemDiv.querySelector('.val-total').addEventListener('input', (e) => {
+            // O input 'change' ou 'blur' sincroniza com o Firebase quando o usuário termina de digitar
+            itemDiv.querySelector('.val-total').addEventListener('change', (e) => {
                 metas[index].total = e.target.value;
-                salvarDados(); atualizarApenasTotais();
+                sincronizarComFirebase();
             });
 
-            itemDiv.querySelector('.val-guardado').addEventListener('input', (e) => {
+            itemDiv.querySelector('.val-guardado').addEventListener('change', (e) => {
                 metas[index].guardado = e.target.value;
-                salvarDados(); atualizarApenasTotais();
+                sincronizarComFirebase();
             });
+
+            // Efeito visual rápido enquanto digita (local)
+            itemDiv.querySelector('.val-total').addEventListener('input', () => atualizarApenasTotaisLocais());
+            itemDiv.querySelector('.val-guardado').addEventListener('input', () => atualizarApenasTotaisLocais());
 
             itemDiv.querySelector('.btn-search').addEventListener('click', () => {
                 window.open(`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(meta.nome)}`, '_blank');
@@ -409,7 +452,8 @@
             itemDiv.querySelector('.btn-delete').addEventListener('click', () => {
                 const senhaDigitada = prompt('Digite a senha para confirmar a exclusão:');
                 if (senhaDigitada === SENHA_CORRETA) {
-                    metas.splice(index, 1); salvarDados(); renderizarLista();
+                    metas.splice(index, 1);
+                    sincronizarComFirebase();
                 } else if (senhaDigitada !== null) {
                     alert('Senha incorreta!');
                 }
@@ -423,7 +467,7 @@
         document.getElementById('total-falta').textContent = formatMoeda(globalFalta);
     };
 
-    const atualizarApenasTotais = () => {
+    const atualizarApenasTotaisLocais = () => {
         let globalTotal = 0; let globalGuardado = 0; let globalFalta = 0;
         document.querySelectorAll('.meta-item').forEach((item) => {
             const total = parseFloat(item.querySelector('.val-total').value) || 0;
@@ -442,14 +486,12 @@
         const input = document.getElementById('novo-item-nome');
         if (input.value.trim() === '') return;
         metas.push({ nome: input.value.trim(), checked: false, total: '', guardado: '' });
-        input.value = ''; salvarDados(); renderizarLista();
+        input.value = '';
+        sincronizarComFirebase();
     };
 
     document.getElementById('btn-adicionar').addEventListener('click', adicionarNovoItem);
     document.getElementById('novo-item-nome').addEventListener('keypress', (e) => { if (e.key === 'Enter') adicionarNovoItem(); });
-
-    carregarDadosSalvos();
-    renderizarLista();
 </script>
 </body>
 </html>
