@@ -6,13 +6,11 @@
     <title>Nossas Metas & Conquistas 🎯</title>
     <style>
         :root {
-            --bg-color: #f4f7f9;
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.85);
             --text-color: #2d3748;
-            --primary-color: #4a5568;
             --accent-color: #2c7a7b;
-            --accent-light: #e6fffa;
-            --border-color: #e2e8f0;
+            --accent-light: rgba(230, 255, 250, 0.9);
+            --border-color: rgba(226, 232, 240, 0.8);
             --success-color: #38a169;
             --warning-color: #dd6b20;
             --danger-color: #e53e3e;
@@ -20,11 +18,10 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-color: #1a202c;
-                --card-bg: #2d3748;
+                --card-bg: rgba(45, 55, 72, 0.85);
                 --text-color: #edf2f7;
-                --border-color: #4a5568;
-                --accent-light: #234e52;
+                --border-color: rgba(74, 85, 104, 0.8);
+                --accent-light: rgba(35, 78, 82, 0.9);
             }
         }
 
@@ -36,58 +33,85 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            /* Certifique-se de subir a imagem "casal.jpg" na mesma pasta do index.html no GitHub */
+            background-image: url('casal.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             color: var(--text-color);
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
+        /* Sobreposição sutil para garantir contraste se a foto for muito clara */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            z-index: -1;
+        }
+
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             background: var(--card-bg);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         header h1 {
             font-size: 24px;
             color: var(--accent-color);
             margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            header h1 { color: #81e6d9; }
+        }
+
+        header p {
+            font-size: 13px;
+            opacity: 0.9;
+            font-weight: 500;
         }
 
         /* Painel de Valores Gerais */
         .dashboard {
             background: var(--accent-light);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 8px;
             text-align: center;
-            border: 1px solid var(--accent-color);
+            border: 1px solid rgba(44, 122, 123, 0.3);
         }
 
         .dash-card h4 {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             opacity: 0.8;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .dash-card p {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--accent-color);
         }
@@ -99,60 +123,58 @@
         /* Formulário de Cadastro */
         .add-form {
             display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
         .add-form input {
             flex-grow: 1;
             padding: 12px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            font-size: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2d3748;
+            font-size: 14px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .add-form input { background: rgba(30, 41, 59, 0.9); color: #edf2f7; }
         }
 
         .add-form button {
             background: var(--accent-color);
             color: white;
             border: none;
-            padding: 0 20px;
-            border-radius: 8px;
+            padding: 0 16px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: background 0.2s;
         }
 
-        .add-form button:hover {
-            opacity: 0.9;
-        }
+        .add-form button:hover { background: #234e52; }
 
-        /* Container da Lista Vazia */
         #lista-vazia {
             text-align: center;
             padding: 30px;
-            opacity: 0.5;
-            font-size: 15px;
+            opacity: 0.8;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        /* Item Gerado Dinamicamente */
+        /* Item de Meta */
         .meta-item {
-            background: rgba(0,0,0,0.01);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 14px;
             padding: 15px;
             margin-bottom: 12px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
         @media (prefers-color-scheme: dark) {
-            .meta-item { background: rgba(255,255,255,0.02); }
+            .meta-item { background: rgba(45, 55, 72, 0.6); }
         }
 
         .item-main {
@@ -165,13 +187,13 @@
         .item-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-grow: 1;
         }
 
         .item-left input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             accent-color: var(--success-color);
             cursor: pointer;
         }
@@ -183,62 +205,81 @@
 
         .item-actions {
             display: flex;
-            gap: 5px;
+            gap: 4px;
         }
 
         .action-btn {
-            background: none;
-            border: none;
+            background: rgba(255,255,255,0.5);
+            border: 1px solid var(--border-color);
             cursor: pointer;
-            font-size: 16px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-        .action-btn:hover {
-            background: var(--border-color);
-        }
-        .btn-delete:hover {
-            background: rgba(229, 62, 62, 0.1);
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        /* Inputs Financeiros */
+        @media (prefers-color-scheme: dark) {
+            .action-btn { background: rgba(0,0,0,0.2); }
+        }
+
+        .action-btn:hover { background: var(--border-color); }
+        .btn-delete:hover { background: rgba(229, 62, 62, 0.15); }
+
+        /* Campos de Valores e Responsividade Mobile */
         .item-finances {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 8px;
             margin-top: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .item-finances {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .dashboard {
+                gap: 5px;
+            }
+            .dashboard p { font-size: 12px; }
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .input-group label {
             font-size: 11px;
-            opacity: 0.7;
-            font-weight: 600;
+            opacity: 0.8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .input-group input {
-            padding: 6px 8px;
+            padding: 8px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background: var(--card-bg);
-            color: var(--text-color);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.9);
+            color: #2d3748;
             font-size: 13px;
             width: 100%;
         }
 
+        @media (prefers-color-scheme: dark) {
+            .input-group input { background: rgba(30, 41, 59, 0.9); color: #edf2f7; }
+        }
+
         .result-box {
-            padding: 6px 8px;
-            background: rgba(0,0,0,0.03);
+            padding: 8px;
+            background: rgba(0,0,0,0.04);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
+            min-height: 33px;
             display: flex;
             align-items: center;
         }
@@ -253,9 +294,9 @@
         .progress-bar-container {
             width: 100%;
             height: 6px;
-            background: var(--border-color);
+            background: rgba(0,0,0,0.1);
             border-radius: 3px;
-            margin-top: 10px;
+            margin-top: 12px;
             overflow: hidden;
         }
 
@@ -268,18 +309,26 @@
 
         .meta-item.item-done {
             border-color: var(--success-color);
-            opacity: 0.7;
+            background: rgba(240, 253, 244, 0.85);
+        }
+        @media (prefers-color-scheme: dark) {
+            .meta-item.item-done { background: rgba(20, 50, 30, 0.85); }
         }
         .meta-item.item-done .item-title {
             text-decoration: line-through;
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         footer {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
             font-size: 12px;
-            opacity: 0.6;
+            opacity: 0.9;
+            font-weight: 500;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+        }
+        @media (prefers-color-scheme: dark) {
+            footer { text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
         }
     </style>
 </head>
@@ -294,26 +343,26 @@
     <!-- Painel Geral -->
     <div class="dashboard">
         <div class="dash-card">
-            <h4>Total Necessário</h4>
+            <h4>Total</h4>
             <p id="total-geral">R$ 0,00</p>
         </div>
         <div class="dash-card">
-            <h4>Total Guardado</h4>
+            <h4>Guardado</h4>
             <p id="total-guardado">R$ 0,00</p>
         </div>
         <div class="dash-card">
-            <h4>Total que Falta</h4>
+            <h4>Falta</h4>
             <p id="total-falta" style="color: var(--warning-color);">R$ 0,00</p>
         </div>
     </div>
 
-    <!-- Campo para Adicionar Novo Item -->
+    <!-- Cadastro -->
     <div class="add-form">
-        <input type="text" id="novo-item-nome" placeholder="O que vamos planejar agora? Ex: Sofá Retrátil...">
+        <input type="text" id="novo-item-nome" placeholder="O que vamos planejar? Ex: Viagem, Moto...">
         <button id="btn-adicionar">Adicionar</button>
     </div>
 
-    <!-- Onde os itens vão aparecer -->
+    <!-- Elementos da Lista -->
     <div id="lista-container">
         <div id="lista-vazia">Nenhum plano adicionado ainda. Comece digitando acima! 🚀</div>
     </div>
@@ -324,32 +373,27 @@
 </div>
 
 <script>
-    // Array que guardará todos os itens na memória
+    // Configurações Globais
+    const SENHA_CORRETA = '1234'; // Altere sua senha de exclusão aqui!
     let metas = [];
 
-    // Carrega do banco local do navegador ao abrir a página
     const carregarDadosSalvos = () => {
-        const dados = localStorage.getItem('minhas_metas_casal');
-        if (dados) {
-            metas = JSON.parse(dados);
-        }
+        const dados = localStorage.getItem('minhas_metas_casal_foto');
+        if (dados) metas = JSON.parse(dados);
     };
 
-    // Salva o estado atual no navegador
     const salvarDados = () => {
-        localStorage.setItem('minhas_metas_casal', JSON.stringify(metas));
+        localStorage.setItem('minhas_metas_casal_foto', JSON.stringify(metas));
     };
 
     const formatMoeda = (valor) => {
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
-    // Renderiza a lista completa e atualiza o painel
     const renderizarLista = () => {
         const container = document.getElementById('lista-container');
         const vaziaDiv = document.getElementById('lista-vazia');
         
-        // Limpa o container tirando os itens velhos (mantendo só a div vazia se necessário)
         container.querySelectorAll('.meta-item').forEach(el => el.remove());
 
         if (metas.length === 0) {
@@ -374,7 +418,6 @@
 
             const pPct = total > 0 ? Math.min((guardado / total) * 100, 100) : 0;
 
-            // Cria o elemento HTML do item
             const itemDiv = document.createElement('div');
             itemDiv.className = `meta-item ${meta.checked ? 'item-done' : ''}`;
             
@@ -385,8 +428,8 @@
                         <span class="item-title">${meta.nome}</span>
                     </div>
                     <div class="item-actions">
-                        <button class="action-btn btn-search" title="Pesquisar preço no Google Shopping">🔍</button>
-                        <button class="action-btn btn-delete" title="Excluir item" style="color: var(--danger-color);">🗑️</button>
+                        <button class="action-btn btn-search" title="Pesquisar">🔍</button>
+                        <button class="action-btn btn-delete" style="color: var(--danger-color);" title="Excluir">🗑️</button>
                     </div>
                 </div>
                 <div class="item-finances">
@@ -410,20 +453,18 @@
                 </div>
             `;
 
-            // EVENTOS DO ITEM DINÂMICO
-            
-            // Checkbox de concluir
+            // Checkbox
             itemDiv.querySelector('.done-check').addEventListener('change', (e) => {
                 metas[index].checked = e.target.checked;
                 salvarDados();
                 renderizarLista();
             });
 
-            // Inputs de Valores
+            // Inputs
             itemDiv.querySelector('.val-total').addEventListener('input', (e) => {
                 metas[index].total = e.target.value;
                 salvarDados();
-                atualizarApenasTotais(); // Melhora performance ao digitar
+                atualizarApenasTotais();
             });
 
             itemDiv.querySelector('.val-guardado').addEventListener('input', (e) => {
@@ -432,29 +473,32 @@
                 atualizarApenasTotais();
             });
 
-            // Botão Pesquisar Google Shopping
+            // Busca Google Shopping
             itemDiv.querySelector('.btn-search').addEventListener('click', () => {
                 const query = encodeURIComponent(meta.nome);
                 window.open(`https://www.google.com/search?tbm=shop&q=${query}`, '_blank');
             });
 
-            // Botão Excluir
+            // Exclusão protegida com Janela de Senha nativa do navegador
             itemDiv.querySelector('.btn-delete').addEventListener('click', () => {
-                metas.splice(index, 1);
-                salvarDados();
-                renderizarLista();
+                const senhaDigitada = prompt('Digite a senha para confirmar a exclusão deste plano:');
+                if (senhaDigitada === SENHA_CORRETA) {
+                    metas.splice(index, 1);
+                    salvarDados();
+                    renderizarLista();
+                } else if (senhaDigitada !== null) {
+                    alert('Senha incorreta! O item não foi excluído.');
+                }
             });
 
             container.appendChild(itemDiv);
         });
 
-        // Atualiza o painel superior
         document.getElementById('total-geral').textContent = formatMoeda(globalTotal);
         document.getElementById('total-guardado').textContent = formatMoeda(globalGuardado);
         document.getElementById('total-falta').textContent = formatMoeda(globalFalta);
     };
 
-    // Função rápida para recalcular valores e atualizar barras enquanto o usuário digita
     const atualizarApenasTotais = () => {
         let globalTotal = 0;
         let globalGuardado = 0;
@@ -492,21 +536,14 @@
         document.getElementById('total-falta').textContent = formatMoeda(globalFalta);
     };
 
-    // Ação do Botão Adicionar do topo
     const adicionarNovoItem = () => {
         const inputNome = document.getElementById('novo-item-nome');
         const nome = inputNome.value.trim();
 
         if (nome === '') return;
 
-        metas.push({
-            nome: nome,
-            checked: false,
-            total: '',
-            guardado: ''
-        });
-
-        inputNome.value = ''; // Limpa o campo
+        metas.push({ nome: nome, checked: false, total: '', guardado: '' });
+        inputNome.value = '';
         salvarDados();
         renderizarLista();
     };
@@ -516,7 +553,6 @@
         if (e.key === 'Enter') adicionarNovoItem();
     });
 
-    // Inicialização da página
     carregarDadosSalvos();
     renderizarLista();
 </script>
