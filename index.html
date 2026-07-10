@@ -92,7 +92,6 @@
             header h1 { color: #81e6d9; }
         }
 
-        /* Sistema de Abas */
         .tabs {
             display: flex;
             gap: 5px;
@@ -227,7 +226,6 @@
             cursor: pointer;
         }
 
-        /* Estilo do título editável */
         .item-title-input {
             font-size: 15px;
             font-weight: 600;
@@ -277,15 +275,15 @@
 
         .item-finances {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             margin-top: 8px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 520px) {
             .item-finances {
-                grid-template-columns: 1fr;
-                gap: 6px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
             }
         }
 
@@ -301,18 +299,30 @@
             font-weight: 700;
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             padding: 8px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             color: #2d3748;
             font-size: 13px;
             width: 100%;
+            height: 33px;
         }
 
+        .input-group select {
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Cores dinâmicas para as prioridades */
+        select.prio-alta { color: var(--danger-color); }
+        select.prio-media { color: var(--warning-color); }
+        select.prio-baixa { color: var(--success-color); }
+
         @media (prefers-color-scheme: dark) {
-            .input-group input { background: rgba(30,41,59,0.95); color: white; }
+            .input-group input, .input-group select { background: rgba(30,41,59,0.95); color: white; }
+            select.prio-baixa { color: #81e6d9; }
         }
 
         .result-box {
@@ -380,21 +390,18 @@
         <h1>Nossas Conquistas 🎯</h1>
     </header>
 
-    <!-- Menu de Abas -->
     <div class="tabs">
         <button class="tab-btn active" id="tab-metas">🎯 Metas</button>
         <button class="tab-btn" id="tab-compras">🛒 Compras</button>
         <button class="tab-btn" id="tab-vendas">💰 Vendas</button>
     </div>
 
-    <!-- Painel de Valores Variáveis conforme Aba ativa -->
     <div class="dashboard">
         <div class="dash-card"><h4 id="lbl-dash-1">Total</h4><p id="total-geral">R$ 0,00</p></div>
         <div class="dash-card"><h4 id="lbl-dash-2">Guardado</h4><p id="total-guardado">R$ 0,00</p></div>
         <div class="dash-card"><h4 id="lbl-dash-3">Falta</h4><p id="total-falta" style="color: var(--warning-color);">R$ 0,00</p></div>
     </div>
 
-    <!-- Form de Cadastro -->
     <div class="add-form">
         <input type="text" id="novo-item-nome" placeholder="Adicionar à aba atual...">
         <button id="btn-adicionar">Adicionar</button>
@@ -415,9 +422,6 @@
     import { initializeApp } from "firebase/app";
     import { getDatabase, ref, set, onValue } from "firebase/database";
 
-    // ---------------------------------------------------------
-    // ASSOCIE AQUI OS SEUS DADOS REAIS DO FIREBASE:
-    // ---------------------------------------------------------
     const firebaseConfig = {
         apiKey: "AIzaSyClqzHI7NIrwA9IDQURiQJyRSrYOlSWTgw",
   authDomain: "metas-casal-3634f.firebaseapp.com",
@@ -431,7 +435,7 @@
 
     const SENHA_CORRETA = '1234'; 
     let bancoDadosCompleto = { metas: [], compras: [], vendas: [] };
-    let abaAtiva = 'metas'; // Pode ser: 'metas', 'compras', 'vendas'
+    let abaAtiva = 'metas';
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -441,7 +445,6 @@
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
-    // Gerenciador de cliques nas Abas
     const alternarAba = (novaAba) => {
         abaAtiva = novaAba;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -471,7 +474,6 @@
     document.getElementById('tab-compras').addEventListener('click', () => alternarAba('compras'));
     document.getElementById('tab-vendas').addEventListener('click', () => alternarAba('vendas'));
 
-    // Ouvinte em tempo real do Firebase
     onValue(dbRef, (snapshot) => {
         const dados = snapshot.val();
         if (dados) {
@@ -509,6 +511,7 @@
         itensAtuais.forEach((item, index) => {
             const total = parseFloat(item.total) || 0;
             const guardado = parseFloat(item.guardado) || 0;
+            const prioridade = item.prioridade || 'media'; // Padrão Média se não houver
             let falta = total - guardado; if (falta < 0) falta = 0;
 
             globalTotal += total; globalGuardado += guardado; globalFalta += falta;
@@ -517,10 +520,9 @@
             const itemDiv = document.createElement('div');
             itemDiv.className = `meta-item ${item.checked ? 'item-done' : ''}`;
             
-            // Labels customizadas por contexto
             let lbl1 = "Valor Total", lbl2 = "Já Guardado", lbl3 = "Falta", lblDone = "Concluído!";
             if(abaAtiva === 'compras') { lbl2 = "Já Pago"; lbl3 = "A pagar"; lblDone = "Pago!"; }
-            if(abaAtiva === 'vendas') { lbl1 = "Preço Venda"; lbl2 = "Recebido"; lbl3 = "A receber"; lblDone = "Vendido & Pago!"; }
+            if(abaAtiva === 'vendas') { lbl1 = "Preço Venda"; lbl2 = "Recebido"; lbl3 = "A receber"; lblDone = "Vendido!"; }
 
             itemDiv.innerHTML = `
                 <div class="item-main">
@@ -534,6 +536,14 @@
                     </div>
                 </div>
                 <div class="item-finances">
+                    <div class="input-group">
+                        <label>Prioridade</label>
+                        <select class="prio-select prio-${prioridade}">
+                            <option value="baixa" ${prioridade === 'baixa' ? 'selected' : ''}>Baixa</option>
+                            <option value="media" ${prioridade === 'media' ? 'selected' : ''}>Média</option>
+                            <option value="alta" ${prioridade === 'alta' ? 'selected' : ''}>Alta</option>
+                        </select>
+                    </div>
                     <div class="input-group"><label>${lbl1}</label><input type="number" class="val-total" value="${item.total}" step="0.01"></div>
                     <div class="input-group"><label>${lbl2}</label><input type="number" class="val-guardado" value="${item.guardado}" step="0.01"></div>
                     <div class="input-group"><label>${lbl3}</label><div class="result-box ${falta === 0 && total > 0 ? 'completed-value' : 'missing-value'}">${falta === 0 && total > 0 ? lblDone : formatMoeda(falta)}</div></div>
@@ -541,13 +551,22 @@
                 <div class="progress-bar-container"><div class="progress-bar" style="width: ${pPct}%"></div></div>
             `;
 
-            // EVENTO: Edição instantânea do nome ao mudar o input ou apertar enter
             const inputNome = itemDiv.querySelector('.item-title-input');
             inputNome.addEventListener('change', (e) => {
                 bancoDadosCompleto[abaAtiva][index].nome = e.target.value.trim();
                 sincronizarComFirebase();
             });
             inputNome.addEventListener('keypress', (e) => { if(e.key === 'Enter') inputNome.blur(); });
+
+            const selectPrio = itemDiv.querySelector('.prio-select');
+            selectPrio.addEventListener('change', (e) => {
+                const novaPrio = e.target.value;
+                bancoDadosCompleto[abaAtiva][index].prioridade = novaPrio;
+                
+                // Atualiza a classe de cor na hora
+                selectPrio.className = `prio-select prio-${novaPrio}`;
+                sincronizarComFirebase();
+            });
 
             itemDiv.querySelector('.done-check').addEventListener('change', (e) => {
                 bancoDadosCompleto[abaAtiva][index].checked = e.target.checked;
@@ -619,7 +638,8 @@
             nome: input.value.trim(), 
             checked: false, 
             total: '', 
-            guardado: '' 
+            guardado: '',
+            prioridade: 'media' // Padrão ao criar novo
         });
         
         input.value = '';
